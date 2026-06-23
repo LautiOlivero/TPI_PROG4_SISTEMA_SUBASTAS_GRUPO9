@@ -13,11 +13,11 @@ El objetivo de esta fase es tener la base de datos generada automáticamente por
    - Implementación del mecanismo de Bloqueo Optimista: Añadir campo `version` (anotado con `@Version`) en la entidad `Subasta`.
 2. **Relaciones JPA:**
    - Configurar relaciones OneToMany, ManyToOne, ManyToMany y OneToOne entre las entidades.
-3. **Repositorios:**
-   - Creación de interfaces extendiendo `JpaRepository` para cada entidad.
-4. **DTOs y Validaciones:**
+3. **DTOs y Validaciones:**
    - Crear clases DTO para transferencia de datos.
    - Aplicar anotaciones de validación (ej. `@NotNull`, `@Min`, `@NotBlank`).
+4. **Repositorios:**
+   - Creación de interfaces extendiendo `JpaRepository` para cada entidad.
 5. **Mapeo:**
    - Crear clases o utilidades para transformar de Entidad a DTO y viceversa.
 
