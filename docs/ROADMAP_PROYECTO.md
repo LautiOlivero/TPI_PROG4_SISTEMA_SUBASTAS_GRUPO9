@@ -4,21 +4,21 @@ Este documento establece el plan de ejecución estratégico para el equipo de de
 
 Este enfoque asegura que primero se construya una base sólida de datos antes de avanzar hacia lógicas de negocio complejas o seguridad.
 
-## Fase 1: Capa de Persistencia y Modelado de Datos
+## Fase 1: Capa de Persistencia y Modelado de Datos ✅ COMPLETADA
 El objetivo de esta fase es tener la base de datos generada automáticamente por JPA con todas las restricciones exactas pedidas en el documento.
 
-1. **Entidades JPA (Models):**
+1. **Entidades JPA (Models):** ✅
    - Crear las entidades base: `Usuario`, `Rol`, `Categoria`, `Producto`, `Subasta`, `Puja`, `HistorialEstado`, `Notificacion`, `Disputa`.
    - Mapeo estricto de tipos: Uso exclusivo de `BigDecimal` para importes y configuración de fechas en UTC.
    - Implementación del mecanismo de Bloqueo Optimista: Añadir campo `version` (anotado con `@Version`) en la entidad `Subasta`.
-2. **Relaciones JPA:**
+2. **Relaciones JPA:** ✅
    - Configurar relaciones OneToMany, ManyToOne, ManyToMany y OneToOne entre las entidades.
-3. **DTOs y Validaciones:**
+3. **DTOs y Validaciones:** ✅
    - Crear clases DTO para transferencia de datos.
    - Aplicar anotaciones de validación (ej. `@NotNull`, `@Min`, `@NotBlank`).
-4. **Repositorios:**
+4. **Repositorios:** ✅
    - Creación de interfaces extendiendo `JpaRepository` para cada entidad.
-5. **Mapeo:**
+5. **Mapeo:** ✅
    - Crear clases o utilidades para transformar de Entidad a DTO y viceversa.
 
 ## Fase 2: Arquitectura Base y Manejo de Errores
