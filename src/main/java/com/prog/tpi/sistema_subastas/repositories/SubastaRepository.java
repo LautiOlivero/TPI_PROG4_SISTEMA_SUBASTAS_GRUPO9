@@ -1,4 +1,4 @@
-package com.prog.tpi.sistema_subastas.repository;
+package com.prog.tpi.sistema_subastas.repositories;
 
 import com.prog.tpi.sistema_subastas.models.Subasta;
 import org.springframework.data.jpa.repository.JpaRepository;
