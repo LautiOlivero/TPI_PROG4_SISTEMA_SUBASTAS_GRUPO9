@@ -14,6 +14,7 @@ public class ProductoResponseDTO {
     private Long id;
     private String nombre;
     private String descripcion;
+    private String imagenUrl;
     private CategoriaResponseDTO categoria;
     private UsuarioResponseDTO vendedor;
 }

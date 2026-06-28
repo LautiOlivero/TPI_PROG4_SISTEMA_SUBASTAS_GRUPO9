@@ -1,0 +1,140 @@
+/* Paleta de Colores Personalizada */
+:root {
+    --color-filtro: #7257c9;
+    --color-cancelado: #F06A6A;
+    --color-activo: #c3e684;
+    --color-publicado: #79abff;
+    --color-alerta-btn: #f6d866;
+    --color-alerta-bg: #ffffff;
+    --asana-darker: #1E1E24;
+}
+
+/* Sobreescribir color oscuro (Navbar) */
+.bg-dark {
+    background-color: var(--asana-darker) !important;
+}
+
+/* Barra de selección (Tabs de index.html) */
+.nav-pills .nav-link {
+    color: #495057 !important;
+    font-weight: 500;
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--asana-darker) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: var(--color-filtro) !important;
+    color: #fff !important;
+}
+
+/* Badges de Estado (App.js y Subasta.js) */
+.bg-success {
+    background-color: var(--color-activo) !important;
+    color: #000 !important;
+}
+
+.bg-primary {
+    background-color: var(--color-publicado) !important;
+    color: #000 !important;
+}
+
+.bg-danger {
+    background-color: var(--color-cancelado) !important;
+    color: #fff !important;
+}
+
+/* Botones principales */
+.btn-primary {
+    background-color: var(--color-publicado) !important;
+    border-color: var(--color-publicado) !important;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #6a9cee !important;
+    border-color: #6a9cee !important;
+}
+
+.btn-outline-primary {
+    color: var(--color-publicado) !important;
+    border-color: var(--color-publicado) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--color-publicado) !important;
+    color: #000 !important;
+}
+
+.text-primary {
+    color: var(--color-publicado) !important;
+}
+
+/* SweetAlert2 Alertas Personalizadas */
+div:where(.swal2-container) div:where(.swal2-popup) {
+    background-color: var(--color-alerta-bg) !important;
+    border-radius: 15px !important;
+}
+
+div:where(.swal2-container) h2:where(.swal2-title),
+div:where(.swal2-container) div:where(.swal2-html-container) {
+    color: #333 !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    background-color: var(--color-alerta-btn) !important;
+    color: #000 !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+}
+
+/* Estilos extra*/
+body {
+    background-color: #f8f9fa;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i0.wp.com/aldiaargentina.microjuris.com/wp-content/uploads/2021/11/subasta-online.jpg?fit=941%2C629&ssl=1');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* Detalles de subasta */
+.premium-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-tabs .nav-link {
+    color: #6c757d;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--color-publicado);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--color-publicado) !important;
+}
+
+.hover-primary:hover {
+    color: var(--color-publicado) !important;
+}

@@ -21,6 +21,9 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(name = "imagen_url")
+    private String imagenUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", nullable = false)
     @ToString.Exclude

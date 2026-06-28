@@ -34,3 +34,7 @@ build/
 
 # Variables de entorno locales
 .env
+
+# Archivos temporales o de prueba del frontend
+frontend/seed.html
+frontend/transform*

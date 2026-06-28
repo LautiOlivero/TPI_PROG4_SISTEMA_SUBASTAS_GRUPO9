@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Subastas - Sistema de Subastas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../../img/icono_subasta9.png" alt="Subastas Grupo 9" height="60">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="crear-subasta.html">Crear Subasta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="mis-subastas.html">Mis Subastas</a>
+                    </li>
+                </ul>
+                <div class="d-flex ms-auto">
+                    <!-- Simulamos que ya está logueado -->
+                    <span class="navbar-text me-3">Hola, Vendedor</span>
+                    <a href="login.html" class="btn btn-outline-light btn-sm">Salir</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold"><i class="bi bi-kanban me-2 text-primary"></i>Panel de Gestión</h2>
+            <a href="crear-subasta.html" class="btn btn-primary fw-bold"><i class="bi bi-plus-lg me-2"></i>Nueva
+                Subasta</a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" class="ps-4">Producto</th>
+                                <th scope="col">Fechas</th>
+                                <th scope="col">Precio Base / Actual</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col" class="text-end pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaMisSubastas">
+                            <!-- Loader (Se oculta al cargar los datos) -->
+                            <tr id="loaderFila">
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                    <p class="mt-2 mb-0">Cargando tus subastas...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 para alertas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Nuestro Script -->
+    <script src="../js/mis-subastas.js"></script>
+</body>
+
+</html>

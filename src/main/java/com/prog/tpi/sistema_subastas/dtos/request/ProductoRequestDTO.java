@@ -18,6 +18,8 @@ public class ProductoRequestDTO {
 
     private String descripcion;
 
+    private String imagenUrl;
+
     @NotNull(message = "{err.req}")
     private Long categoriaId;
 
