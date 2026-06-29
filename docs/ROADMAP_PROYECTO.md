@@ -21,15 +21,15 @@ El objetivo de esta fase es tener la base de datos generada automáticamente por
 5. **Mapeo:** ✅
    - Crear clases o utilidades para transformar de Entidad a DTO y viceversa.
 
-## Fase 2: Arquitectura Base y Manejo de Errores
+## Fase 2: Arquitectura Base y Manejo de Errores ✅ COMPLETADA
 Antes de programar la lógica del negocio, se debe preparar la estructura para manejar los flujos excepcionales de manera limpia.
 
 1. **Manejo Global de Excepciones:**
    - Implementar un `@ControllerAdvice` o `@RestControllerAdvice`.
    - Definir excepciones personalizadas de negocio (ej. `MontoInvalidoException`, `SubastaNoActivaException`, `VersionConflictException` para el Bloqueo Optimista).
-   - Estandarizar la respuesta de error (código de estado, mensaje, timestamp).
+   - Estandarizar la respuesta de error (código de estado, mensaje, timestamp). ✅ 
 2. **Configuración de Entorno y Base de Datos:**
-   - Setup de **PostgreSQL** mediante variables de entorno para tener un entorno idéntico al de presentación/producción desde el día 1.
+   - Setup de **PostgreSQL** mediante variables de entorno para tener un entorno idéntico al de presentación/producción desde el día 1. ✅ 
 
 ## Fase 3: Seguridad y Autenticación
 Implementar el escudo del sistema antes de exponer los endpoints de negocio.
@@ -52,7 +52,6 @@ Implementar el escudo del sistema antes de exponer los endpoints de negocio.
 2. **Gestión de Subastas (SELLER y ADMIN):**
    - Creación (estado BORRADOR/PUBLICADA).
    - Reglas de cancelación (diferenciando permisos entre SELLER y ADMIN).
-   - Transiciones de estado iniciales.
 3. **Motor de Pujas (El núcleo transaccional):**
    - Endpoint estricto para recibir pujas.
    - Validación autónoma en backend (precio base o monto actual + incremento).
@@ -60,6 +59,8 @@ Implementar el escudo del sistema antes de exponer los endpoints de negocio.
    - Resolución de concurrencia mediante el rechazo limpio cuando falla la versión (Bloqueo Optimista).
 4. **Privacidad de las Ofertas:**
    - Lógica en el backend para ocultar la identidad de los oferentes mientras la subasta está ACTIVA, revelándolos solo al final al SELLER y al ADMIN en todo momento.
+5. **Integración Frontend-Backend (CORS):**
+   - Configuración global de CORS (`@CrossOrigin` o `WebMvcConfigurer`) para permitir peticiones HTTP desde el frontend en desarrollo local (ej: `localhost:5500` o `file://`).
 
 ## Fase 5: Tareas Programadas y Auditoría (Cierre Dinámico)
 Implementar automatizaciones y trazabilidad.
