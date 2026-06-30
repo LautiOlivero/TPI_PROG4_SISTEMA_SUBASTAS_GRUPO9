@@ -1,5 +1,3 @@
-const MOCKAPI_URL = "https://6a405da01ff1d27becc0c332.mockapi.io/subastas";
-
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('crearSubastaForm');
 
@@ -7,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         try {
-            // 1. Recopilar datos
             const nombreInput = document.getElementById('titulo').value;
             const categoria = document.getElementById('categoria').value;
             const descripcion = document.getElementById('descripcion').value;
@@ -17,107 +14,79 @@ document.addEventListener('DOMContentLoaded', () => {
             const fechaInicio = document.getElementById('fechaInicio').value;
             const fechaCierre = document.getElementById('fechaCierre').value;
 
-            // 2. Validaciones
             const now = new Date();
             const start = new Date(fechaInicio);
             const end = new Date(fechaCierre);
 
             if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error de Validación',
-                    text: 'Las fechas ingresadas no son válidas.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error de Validación', text: 'Las fechas ingresadas no son válidas.' });
                 return;
             }
 
             if (start <= now) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error de Validación',
-                    text: 'La fecha de inicio debe ser posterior a la fecha y hora actual.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error de Validación', text: 'La fecha de inicio debe ser posterior a la fecha y hora actual.' });
                 return;
             }
 
             if (end <= start) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error de Validación',
-                    text: 'La fecha de cierre debe ser posterior a la fecha de inicio.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error de Validación', text: 'La fecha de cierre debe ser posterior a la fecha de inicio.' });
                 return;
             }
 
             if (isNaN(precioBase) || isNaN(incrementoFijo) || precioBase <= 0 || incrementoFijo <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error de Validación',
-                    text: 'Los precios y montos deben ser números mayores a cero.'
-                });
+                Swal.fire({ icon: 'error', title: 'Error de Validación', text: 'Los precios y montos deben ser números mayores a cero.' });
                 return;
             }
 
-            // 3. Preparar Payload
-            const nuevaSubasta = {
+            const productoPayload = {
+                nombre: nombreInput,
+                descripcion: descripcion,
+                imagenUrl: imagenUrl,
+                categoriaId: 1
+            };
+
+            Swal.fire({ title: 'Creando...', text: 'Por favor espere', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+            const productoResponse = await fetch(API_BASE_URL + '/api/productos', {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(productoPayload)
+            });
+
+            if (!productoResponse.ok) {
+                const err = await productoResponse.json();
+                throw new Error(err.message || 'Error al crear el producto');
+            }
+
+            const productoCreado = await productoResponse.json();
+
+            const subastaPayload = {
+                productoId: productoCreado.id,
                 precioBase: precioBase,
-                montoActual: precioBase, // Al crear, el monto actual es el base
                 incrementoFijo: incrementoFijo,
                 fechaInicio: start.toISOString(),
                 fechaCierre: end.toISOString(),
-                estado: 'BORRADOR',
-                producto: {
-                    nombre: nombreInput,
-                    descripcion: descripcion,
-                    imagenUrl: imagenUrl,
-                    categoria: {
-                        nombre: categoria
-                    }
-                },
-                vendedor: {
-                    usernameEmail: "Rematador Oficial" // Simulado
-                }
+                descripcion: descripcion
             };
 
-            // 4. Enviar a MockAPI
-            Swal.fire({
-                title: 'Guardando...',
-                text: 'Por favor espere',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            const response = await fetch(MOCKAPI_URL, {
+            const subastaResponse = await fetch(API_BASE_URL + '/api/subastas', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(nuevaSubasta)
+                headers: getAuthHeaders(),
+                body: JSON.stringify(subastaPayload)
             });
 
-            if (!response.ok) {
-                throw new Error('Error al guardar la subasta en el servidor');
+            if (!subastaResponse.ok) {
+                const err = await subastaResponse.json();
+                throw new Error(err.message || 'Error al crear la subasta');
             }
 
-            // Exito
-            Swal.fire({
-                icon: 'success',
-                title: 'Borrador Guardado',
-                text: 'Tu subasta ha sido creada como borrador exitosamente.',
-                confirmButtonText: 'Ir a Mis Subastas'
-            }).then(() => {
+            Swal.fire({ icon: 'success', title: 'Borrador Guardado', text: 'Tu subasta ha sido creada como borrador exitosamente.', confirmButtonText: 'Ir a Mis Subastas' }).then(() => {
                 window.location.href = 'mis-subastas.html';
             });
 
         } catch (error) {
-            console.error('Error no capturado:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error del Sistema',
-                text: 'Ocurrió un error inesperado: ' + error.message
-            });
+            console.error('Error:', error);
+            Swal.fire({ icon: 'error', title: 'Error del Sistema', text: error.message });
         }
     });
 });

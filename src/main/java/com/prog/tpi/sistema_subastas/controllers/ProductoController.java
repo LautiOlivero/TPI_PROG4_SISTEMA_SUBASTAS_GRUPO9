@@ -4,21 +4,19 @@ import com.prog.tpi.sistema_subastas.dtos.request.ProductoRequestDTO;
 import com.prog.tpi.sistema_subastas.dtos.response.ProductoResponseDTO;
 import com.prog.tpi.sistema_subastas.services.ProductoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/productos")
-@CrossOrigin(origins = "*") // Temporal para desarrollo con frontend local
 public class ProductoController {
 
     private final ProductoService productoService;
 
-    @Autowired
     public ProductoController(ProductoService productoService) {
         this.productoService = productoService;
     }
@@ -34,6 +32,7 @@ public class ProductoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductoResponseDTO> crearProducto(@Valid @RequestBody ProductoRequestDTO dto) {
         ProductoResponseDTO creado = productoService.crearProducto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);

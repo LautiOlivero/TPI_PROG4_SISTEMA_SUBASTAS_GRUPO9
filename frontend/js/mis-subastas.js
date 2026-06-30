@@ -1,5 +1,3 @@
-const MOCKAPI_URL = "https://6a405da01ff1d27becc0c332.mockapi.io/subastas";
-
 document.addEventListener('DOMContentLoaded', () => {
     cargarMisSubastas();
 });
@@ -8,24 +6,16 @@ async function cargarMisSubastas() {
     const tbody = document.getElementById('tablaMisSubastas');
 
     try {
-        const response = await fetch(MOCKAPI_URL);
+        const response = await fetch(API_BASE_URL + '/api/subastas');
         if (!response.ok) throw new Error('Error al obtener los datos');
 
         let subastas = await response.json();
-
-        subastas = subastas.filter(s => s.vendedorId === 1 || !s.vendedorId); 
         subastas.reverse();
 
-        tbody.innerHTML = ''; // Limpiar loader
+        tbody.innerHTML = '';
 
         if (subastas.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="text-center py-5 text-muted">
-                        No tienes ninguna subasta cargada aún.
-                    </td>
-                </tr>
-            `;
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted">No tienes ninguna subasta cargada aún.</td></tr>`;
             return;
         }
 
@@ -36,24 +26,16 @@ async function cargarMisSubastas() {
 
     } catch (error) {
         console.error('Error:', error);
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5" class="text-center py-5 text-danger">
-                    Error al cargar las subastas. Por favor, intente nuevamente.
-                </td>
-            </tr>
-        `;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-danger">Error al cargar las subastas. Por favor, intente nuevamente.</td></tr>`;
     }
 }
 
 function crearFilaSubasta(subasta) {
     const tr = document.createElement('tr');
 
-    // Parsear fechas
     const fechaInicioStr = subasta.fechaInicio ? new Date(subasta.fechaInicio).toLocaleString() : 'N/A';
     const fechaCierreStr = subasta.fechaCierre ? new Date(subasta.fechaCierre).toLocaleString() : 'N/A';
 
-    // Determinar Badge de Estado
     let badgeClass = 'bg-secondary';
     if (subasta.estado === 'BORRADOR') badgeClass = 'bg-warning text-dark';
     if (subasta.estado === 'ACTIVA') badgeClass = 'bg-success';
@@ -61,18 +43,16 @@ function crearFilaSubasta(subasta) {
     if (subasta.estado === 'FINALIZADA') badgeClass = 'bg-secondary';
     if (subasta.estado === 'CANCELADA') badgeClass = 'bg-danger';
 
-    // Botones de acción
     let botonesHtml = '';
 
     if (subasta.estado === 'BORRADOR') {
-        botonesHtml += `<button onclick="cambiarEstado('${subasta.id}', 'PUBLICADA')" class="btn btn-sm btn-outline-primary me-2" title="Publicar"><i class="bi bi-cloud-arrow-up"></i> Publicar</button>`;
-        botonesHtml += `<button onclick="cambiarEstado('${subasta.id}', 'CANCELADA')" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="bi bi-x-circle"></i></button>`;
+        botonesHtml += `<button onclick="cambiarEstado(${subasta.id}, 'PUBLICADA')" class="btn btn-sm btn-outline-primary me-2" title="Publicar"><i class="bi bi-cloud-arrow-up"></i> Publicar</button>`;
+        botonesHtml += `<button onclick="cambiarEstado(${subasta.id}, 'CANCELADA')" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="bi bi-x-circle"></i></button>`;
     } else if (subasta.estado === 'PUBLICADA') {
-        botonesHtml += `<button onclick="cambiarEstado('${subasta.id}', 'CANCELADA')" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="bi bi-x-circle"></i> Cancelar</button>`;
+        botonesHtml += `<button onclick="cambiarEstado(${subasta.id}, 'CANCELADA')" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="bi bi-x-circle"></i> Cancelar</button>`;
     } else if (subasta.estado === 'ACTIVA' || subasta.estado === 'FINALIZADA') {
         botonesHtml += `<a href="subasta.html?id=${subasta.id}" class="btn btn-sm btn-outline-info" title="Ver Subasta"><i class="bi bi-eye"></i> Ver</a>`;
     }
-
 
     tr.innerHTML = `
         <td class="ps-4">
@@ -106,7 +86,7 @@ async function cambiarEstado(id, nuevoEstado) {
     const textoAccion = nuevoEstado === 'PUBLICADA' ? 'publicar' : 'cancelar';
 
     const result = await Swal.fire({
-        title: `¿Estás seguro?`,
+        title: '¿Estás seguro?',
         text: `Vas a ${textoAccion} esta subasta.`,
         icon: 'warning',
         showCancelButton: true,
@@ -118,33 +98,27 @@ async function cambiarEstado(id, nuevoEstado) {
 
     if (result.isConfirmed) {
         try {
-            Swal.fire({
-                title: 'Procesando...',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
+            Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            const endpoint = nuevoEstado === 'PUBLICADA' ? `/api/subastas/${id}/publicar` : `/api/subastas/${id}/cancelar`;
+
+            const response = await fetch(API_BASE_URL + endpoint, {
+                method: 'PATCH',
+                headers: getAuthHeaders()
             });
 
-            const response = await fetch(`${MOCKAPI_URL}/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ estado: nuevoEstado })
-            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.message || 'Error en la petición');
+            }
 
-            if (!response.ok) throw new Error('Error en la petición');
+            await Swal.fire('¡Listo!', `La subasta ha sido ${nuevoEstado === 'PUBLICADA' ? 'publicada' : 'cancelada'}.`, 'success');
 
-            await Swal.fire(
-                '¡Listo!',
-                `La subasta ha sido ${nuevoEstado === 'PUBLICADA' ? 'publicada' : 'cancelada'}.`,
-                'success'
-            );
-
-            cargarMisSubastas(); // Recargar la tabla
+            cargarMisSubastas();
 
         } catch (error) {
             console.error('Error:', error);
-            Swal.fire('Error', 'Hubo un problema al procesar la solicitud.', 'error');
+            Swal.fire('Error', error.message || 'Hubo un problema al procesar la solicitud.', 'error');
         }
     }
 }
