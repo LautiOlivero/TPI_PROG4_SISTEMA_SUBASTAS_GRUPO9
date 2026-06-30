@@ -22,7 +22,4 @@ public class ProductoRequestDTO {
 
     @NotNull(message = "{err.req}")
     private Long categoriaId;
-
-    @NotNull(message = "{err.req}")
-    private Long vendedorId;
 }

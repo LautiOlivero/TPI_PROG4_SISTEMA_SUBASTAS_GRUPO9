@@ -102,13 +102,24 @@ public class GlobalExceptionHandler {
                                 .build();
         }
 
-        // Seguridad: Acceso Denegado o Credenciales Inváidas
-        @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
+        // Seguridad: Autenticación requerida (401)
+        @ExceptionHandler(AuthenticationException.class)
         @ResponseStatus(HttpStatus.UNAUTHORIZED)
-        public ApiErrorDTO handleSecurityExceptions(Exception ex) {
+        public ApiErrorDTO handleAuthenticationException(AuthenticationException ex) {
                 return ApiErrorDTO.builder()
                                 .status(HttpStatus.UNAUTHORIZED.value())
-                                .message("Error de autenticación o no tienes permisos para realizar esta acción.")
+                                .message("Se requiere autenticación para acceder a este recurso.")
+                                .timestamp(Instant.now())
+                                .build();
+        }
+
+        // Seguridad: Acceso Denegado por permisos insuficientes (403)
+        @ExceptionHandler(AccessDeniedException.class)
+        @ResponseStatus(HttpStatus.FORBIDDEN)
+        public ApiErrorDTO handleAccessDeniedException(AccessDeniedException ex) {
+                return ApiErrorDTO.builder()
+                                .status(HttpStatus.FORBIDDEN.value())
+                                .message("No tienes permisos suficientes para realizar esta acción.")
                                 .timestamp(Instant.now())
                                 .build();
         }

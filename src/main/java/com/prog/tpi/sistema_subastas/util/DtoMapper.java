@@ -75,8 +75,8 @@ public class DtoMapper {
         return Producto.builder()
                 .nombre(dto.getNombre())
                 .descripcion(dto.getDescripcion())
+                .imagenUrl(dto.getImagenUrl())
                 .categoria(Categoria.builder().id(dto.getCategoriaId()).build())
-                .vendedor(Usuario.builder().id(dto.getVendedorId()).build())
                 .build();
     }
 
