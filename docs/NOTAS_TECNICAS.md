@@ -6,10 +6,10 @@
 - Fase 1: Entidades JPA, relaciones, DTOs, repositorios
 - Fase 2: Manejo global de excepciones, configuración PostgreSQL
 - Fase 3: Seguridad completa (Spring Security, JWT, autenticación, RBAC)
+- Fase 5: Tareas programadas, cierre automático, notificaciones, disputas
 
 **Pendiente:**
 - Fase 4: Motor de pujas, privacidad de ofertas, lógica de negocio avanzada
-- Fase 5: Tareas programadas, cierre automático, notificaciones, disputas
 
 ## Convenciones del Proyecto
 
