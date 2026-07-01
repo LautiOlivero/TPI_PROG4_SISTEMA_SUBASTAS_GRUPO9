@@ -4,6 +4,7 @@ public enum EstadoSubasta {
     BORRADOR,
     PUBLICADA,
     ACTIVA,
-    CERRADA,
+    ADJUDICADA,   // Cerrada con ganador
+    FINALIZADA,   // Cerrada sin pujas
     CANCELADA
 }

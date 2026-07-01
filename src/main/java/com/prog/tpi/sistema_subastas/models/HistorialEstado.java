@@ -35,10 +35,10 @@ public class HistorialEstado {
     private Instant fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_responsable_id", nullable = false)
+    @JoinColumn(name = "usuario_responsable_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Usuario usuarioResponsable;
+    private Usuario usuarioResponsable; // null = transición automática por scheduler
 
     @Column(length = 255)
     private String motivo;

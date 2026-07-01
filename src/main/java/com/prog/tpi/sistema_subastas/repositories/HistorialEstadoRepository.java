@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HistorialEstadoRepository extends JpaRepository<HistorialEstado, Long> {
+
+    List<HistorialEstado> findBySubastaIdOrderByFechaAsc(Long subastaId);
 }
