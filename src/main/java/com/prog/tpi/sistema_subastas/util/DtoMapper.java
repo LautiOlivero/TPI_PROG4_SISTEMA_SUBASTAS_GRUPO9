@@ -85,6 +85,7 @@ public class DtoMapper {
                 .id(producto.getId())
                 .nombre(producto.getNombre())
                 .descripcion(producto.getDescripcion())
+                .imagenUrl(producto.getImagenUrl())
                 .categoria(toCategoriaDTO(producto.getCategoria()))
                 .vendedor(toUsuarioDTO(producto.getVendedor()))
                 .build();
@@ -154,13 +155,17 @@ public class DtoMapper {
     }
 
     public static HistorialEstadoResponseDTO toHistorialEstadoDTO(HistorialEstado historial) {
+        UsuarioResponseDTO usuarioResponsable = historial.getUsuarioResponsable() != null
+                ? toUsuarioDTO(historial.getUsuarioResponsable())
+                : null;
+
         return HistorialEstadoResponseDTO.builder()
                 .id(historial.getId())
                 .subastaId(historial.getSubasta().getId())
                 .estadoAnterior(historial.getEstadoAnterior())
                 .estadoNuevo(historial.getEstadoNuevo())
                 .fecha(historial.getFecha())
-                .usuarioResponsable(toUsuarioDTO(historial.getUsuarioResponsable()))
+                .usuarioResponsable(usuarioResponsable)
                 .motivo(historial.getMotivo())
                 .build();
     }

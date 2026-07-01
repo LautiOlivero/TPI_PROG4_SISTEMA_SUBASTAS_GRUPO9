@@ -1,0 +1,1735 @@
+NOTA PARA CARGAR EN POSTMAN:
+Las contraseñas en el JSON de la entidad Usuarios se envían en texto plano (ejemplo: "password123"). Al recibir el POST, Spring Security interceptará el dato en la capa de servicio y se encargará de aplicar el hash con BCrypt automáticamente antes de guardarlo en la base de datos.
+
+A continuación están los JSON para cargar cada entidad en orden.
+
+=== 1. ENTIDAD ROLES (POST) ===
+[
+  { "nombre": "USUARIO" },
+  { "nombre": "VENDEDOR" },
+  { "nombre": "ADMINISTRADOR" }
+]
+
+=== 2. ENTIDAD CATEGORIAS (POST) ===
+[
+  { "nombre": "Inmuebles", "descripcion": "Bienes raíces, terrenos y propiedades" },
+  { "nombre": "Vehículos", "descripcion": "Automóviles, camionetas y motocicletas" },
+  { "nombre": "Hogar", "descripcion": "Muebles, electrodomésticos y tecnología para el hogar" }
+]
+
+=== 3. ENTIDAD USUARIOS (POST) ===
+[
+  {
+    "usernameEmail": "rematador_oficial@subastas.com",
+    "password": "password123",
+    "roles": [ { "id": 1 }, { "id": 2 } ]
+  },
+  {
+    "usernameEmail": "subastas_centro@subastas.com",
+    "password": "password123",
+    "roles": [ { "id": 1 }, { "id": 2 } ]
+  },
+  {
+    "usernameEmail": "admin_general@subastas.com",
+    "password": "admin123",
+    "roles": [ { "id": 1 }, { "id": 3 } ]
+  }
+]
+
+=== 4. ENTIDAD PRODUCTOS (POST) ===
+[
+  {
+    "nombre": "Bajaj Rouser NS 200 2023",
+    "descripcion": "Moto urbana ideal para el día a día. Bajo consumo, refrigeración líquida y único dueño.",
+    "imagenUrl": "https://lamoto.com.ar/wp-content/uploads/2022/02/Bajaj-NS200-2022-venta-en-Argentina-precio-azul.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Horno Eléctrico Atma 40L",
+    "descripcion": "Horno de mesa con convección, timer, termostato regulable y bandeja asadora. Uso mínimo.",
+    "imagenUrl": "https://previsoraarg.vtexassets.com/arquivos/ids/156311-800-auto?v=637866587609670000&width=800&height=auto&aspect=true",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Terreno Industrial 1500m2 sobre Ruta",
+    "descripcion": "Fracción de tierra apta para radicación de industrias, galpones o depósitos logísticos. Acceso directo asfaltado.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbCnUlKddyybiWAMonPxFtIlfVyrBrBAgTxw&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Terreno con Nivelación y Cerco Perimetral",
+    "descripcion": "Lote regular totalmente limpio y nivelado. Cuenta con pilar de luz reglamentario instalado y conexión de agua.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/dark-metal-fence-private-property-spring-detail-modern-brown-surrounding-residential-estate-tall-green-spruce-trees-450750206.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Juego de Comedor Madera 6 Sillas",
+    "descripcion": "Mesa rectangular de madera maciza de pino lustrado con 6 sillas tapizadas en ecocuero.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/mesa-de-comedor-moderna-con-seis-sillas-altas-madera-respaldo-y-ambientes-sitio-241441111.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Nissan Frontier PRO-4X 2022",
+    "descripcion": "Camioneta off-road con bloqueo de diferencial trasero, cámaras 360 y suspensión reforzada.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSovOU3Mk0SbEEB2YKIoZ8vvs8WVGyRMpJzng&s",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Local Comercial Esquina Doble Altura",
+    "descripcion": "Propiedad de gran exposición visual en esquina de avenida principal. Apto gastronomía, bancos o comercios de escala.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/fachada-de-locales-comerciales-en-zona-comercial-el-%C3%A1rea-un-d%C3%ADa-soleado-226704557.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Batidora Planetaria Peabody",
+    "descripcion": "Batidora de pie con bowl de acero inoxidable de 4.5L, incluye gancho amasador y batidor de alambre.",
+    "imagenUrl": "https://electrooutlet.com.ar/Image/0/750_750-badca30d-678a-45b5-a546-747ba1c0f3a6.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Mesa Ratona de Vidrio y Metal",
+    "descripcion": "Mesa de centro moderna con estructura metálica cromada y superficie de vidrio templado de 8mm.",
+    "imagenUrl": "https://valeriocaballeromuebles.com/wp-content/uploads/2026/05/D_NQ_NP_831206-MLA32046283627_092019-V.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Casa Duplex 2 Dormitorios con Cochera",
+    "descripcion": "Complejo residencial cerrado. Planta baja con estar, cocina y patio chico. Planta alta con 2 dormitorios y baño principal.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/nuevo-exterior-americano-del-hogar-33045473.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Casa Sencilla con Amplio Terreno Libre",
+    "descripcion": "Construcción básica de ladrillos, 2 habitaciones, baño y cocina funcional. Gran superficie de terreno libre hacia el fondo.",
+    "imagenUrl": "https://www.shutterstock.com/shutterstock/videos/3770780985/thumb/1.jpg?ip=x480",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Departamento Tipo PH de 2 Ambientes",
+    "descripcion": "PH en planta baja por pasillo, sin expensas. Un dormitorio, comedor diario, cocina pequeña y patio interno de uso exclusivo.",
+    "imagenUrl": "https://baroneinmobiliaria.com.ar/wp-content/uploads/2023/03/ph-villaadelina-08pg.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Yamaha MT-03 2021",
+    "descripcion": "Moto naked deportiva, motor bicilíndrico de 321cc, frenos ABS. Excelente estado.",
+    "imagenUrl": "https://pixnio.com/free-images/2021/04/14/2021-04-14-01-34-55-1200x1800.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Chevrolet Tracker Premier 2022",
+    "descripcion": "SUV compacto con motor turbo, alerta de colisión frontal y frenado autónomo de emergencia.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGzZm0ZVjnFpsN38M8xgx_QK4wwPU6frEoyg&s",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Oficina o Local Comercial Planta Alta",
+    "descripcion": "Espacio para oficinas o consultorios, recepción compartida, 3 despachos privados y toilette. Excelente ubicación institucional.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/montigny-france-march-commercial-building-offering-office-retail-units-sale-vacant-business-front-view-modern-450622497.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Monoambiente Amoblado Ideal Estudiantes",
+    "descripcion": "Departamento a cuadras de la zona universitaria. Incluye cocina armada, placard empotrado y artefactos de iluminación.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6pg9eca7Fj8_VH1wHiFJKwZTEN83rute9_Q&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Microondas BGH 20 Litros",
+    "descripcion": "Horno microondas digital, color blanco, con múltiples niveles de potencia y función descongelar.",
+    "imagenUrl": "https://grupomarquez.com.ar/Image/0/700_700-D_NQ_NP_919533-MLA49772421100_042022-O.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Royal Enfield Interceptor 650 2023",
+    "descripcion": "Estilo clásico con motor de 648cc. Impecable, con accesorios originales incluidos.",
+    "imagenUrl": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Royal_Enfield_Interceptor_%281%29.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Ford F-100 XLT 1994",
+    "descripcion": "Pick-up clásica en excelente estado de conservación, motor V8, ideal para proyectos de restauración o camperización.",
+    "imagenUrl": "https://images.unsplash.com/photo-1551830820-330a71b99659?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Rm9yZCUyMEYtMTAwJTIwWExUJTIwMTk5NHxlbnwwfHwwfHx8MA%3D%3D",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Lote de Terreno en Zona de Crecimiento",
+    "descripcion": "Lote de 12x30 metros en nuevo loteo residencial. Apertura de calles consolidada y tendido eléctrico en ejecución.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/zona-residencial-con-un-gran-lote-vac%C3%ADo-en-el-medio-terreno-est%C3%A1-rodeado-de-casas-y-una-valla-385832768.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Ford Transit 350L 2019",
+    "descripcion": "Furgón largo de techo alto, excelente mecánica. Lista para trabajar o adaptar como motorhome.",
+    "imagenUrl": "https://images.unsplash.com/photo-1776982298134-d24cc9a3de2b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Rm9yZCUyMFRyYW5zaXQlMjAzNTBMJTIwMjAxOXxlbnwwfHwwfHx8MA%3D%3D",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Lote Terreno Perímetro Semicerrado",
+    "descripcion": "Lote de 400m2 delimitado con cerco perimetral de alambrado olímpico y portón de acceso colocado. Entorno natural.",
+    "imagenUrl": "https://http2.mlstatic.com/D_NQ_NP_2X_733800-MLA109944313140_042026-N.webp",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Casa de 4 Dormitorios, Quincho y Piscina",
+    "descripcion": "Vivienda residencial de categoría en barrio residencial consolidado. Amplio quincho cerrado, asador y gran piscina de material.",
+    "imagenUrl": "https://baroneinmobiliaria.com.ar/wp-content/uploads/2022/10/chalet-san-isidro-5.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Honda XR 250 Tornado 2022",
+    "descripcion": "Motocicleta tipo enduro, ideal para ciudad y terrenos mixtos. Todos los papeles al día.",
+    "imagenUrl": "https://images.unomotos.com.ar/unomotos/motos/honda_tornado_250_2020_1.png",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Smart TV LG 50 Pulgadas 4K",
+    "descripcion": "Televisor inteligente resolución 4K UHD, conectividad Wi-Fi, Bluetooth y sistema operativo webOS.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/samut-prakan-tailandia-de-agosto-la-nueva-tv-en-lg-es-el-modelo-uhd-ai-thinq-pulgadas-inch-muestra-tienda-electr%C3%B3nica-192335474.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Licuadora con Jarra de Vidrio Philips",
+    "descripcion": "Licuadora de 800W, jarra de vidrio de 2 litros resistente al calor, cuchillas de acero inoxidable extraíbles.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/licuadora-elegante-para-suavidades-y-preparaci%C3%B3n-de-alimentos-esta-imagen-muestra-una-moderna-batidora-roja-dise%C3%B1ada-hacer-342771638.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Renault Sandero 2020",
+    "descripcion": "Hatchback compacto de 5 puertas, ideal para uso urbano. Único dueño.",
+    "imagenUrl": "https://images.unsplash.com/photo-1600210733081-c3b8a58a2749?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Predio Comercial con Oficinas y Galpón",
+    "descripcion": "Inmueble comercial compuesto por oficinas de atención al público, baños privados, playa de maniobras y galpón cerrado.",
+    "imagenUrl": "https://www.jpstella.com.ar/wp-content/uploads/2026/01/Copia-de-Guoli_20_09195.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Escritorio para PC en L",
+    "descripcion": "Mesa de trabajo esquinera, ideal para home office. Melamina blanca con detalles en madera oscura.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjfPrn4xUtklGua95SrONEWVXeTLRWVbLdsg&s",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Lote en Barrio Cerrado con Seguridad",
+    "descripcion": "Terreno de 800m2 ubicado en sector central de barrio privado. Seguridad 24hs, todos los servicios subterráneos y expensas al día.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTimEAiTTZJVmF5HwaI-UGTUYacoT4uANEp8Q&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Aspiradora Robot Xiaomi",
+    "descripcion": "Robot aspirador y trapeador, mapeo láser inteligente, control mediante aplicación móvil.",
+    "imagenUrl": "https://i.blogs.es/3d42f4/img_0393/1366_2000.jpeg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Casa Céntrica con Local Comercial Al Frente",
+    "descripcion": "Vivienda familiar de 2 habitaciones unida a local comercial independiente al frente. Ideal para inversión mixta.",
+    "imagenUrl": "https://www.revigorate.com/images/ludwigstrabe-garmisc-partenkirchen-germany.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Conjunto Sommier y Colchón 2 Plazas",
+    "descripcion": "Colchón de resortes ensacados y base sommier de madera forrada. Medidas 140x190 cm.",
+    "imagenUrl": "https://jeancartierhogar.com.ar/wp-content/uploads/2026/03/001-B-scaled.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Departamento de 2 Dormitorios con Amenities",
+    "descripcion": "Semipiso de categoría. Cuenta con cochera subterránea, terraza con piscina de uso común, SUM y quincho con asadores.",
+    "imagenUrl": "https://www.ahstatic.com/photos/b9l6_roq2aps_00_p_1024x768.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Casa Familiar de 3 Dormitorios con Patio",
+    "descripcion": "Propiedad de dos plantas, 3 dormitorios, 2 baños, cocina comedor espaciosa, garage cubierto y patio amplio con asador.",
+    "imagenUrl": "https://www.shutterstock.com/shutterstock/videos/3818972321/thumb/1.jpg?ip=x480",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Rack para TV de Melamina",
+    "descripcion": "Mueble para TV hasta 65 pulgadas, diseño nórdico con patas de madera paraíso y puertas corredizas.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/centro-de-entretenimiento-moderno-para-sal%C3%B3n-426424998.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Local para Gastronomía con Salida de Humos",
+    "descripcion": "Local comercial preparado para el rubro gastronómico, instalación de gas industrial y campana de extracción reglamentaria.",
+    "imagenUrl": "https://www.visitfinland.com/dam/jcr:9dbc410e-a562-44e4-b539-aafeb5a93f96/SEAHORSE_ELOKUU2022-5-4_onlyforVF.com.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Heladera con Freezer Samsung 328L",
+    "descripcion": "Heladera no frost color plata, excelente estado de conservación, estantes de vidrio templado.",
+    "imagenUrl": "https://d2pr1pn9ywx3vo.cloudfront.net/spree/products/5592/product/sam35x.jpg?1617838428",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Departamento Duplex con Terraza Propia",
+    "descripcion": "Estructura moderna en dos niveles. Dos habitaciones en planta alta, planta baja social con salida a terraza privada con asador.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/moderna-terraza-doble-de-lujo-casas-en-construcci%C3%B3n-dise%C3%B1o-arquitect%C3%B3nico-con-estilo-contempor%C3%A1neo-exterior-ladrillo-fachada-385725793.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Aire Acondicionado Split 3000F",
+    "descripcion": "Equipo split frío/calor, eficiencia energética A, gas ecológico. Control remoto incluido.",
+    "imagenUrl": "https://nearefrigeracion.com.ar/cdn/shop/files/YK-3000FC.jpg?v=1762369751",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Depósito o Local Comercial Amplio",
+    "descripcion": "Inmueble de 200m2 cubiertos con techo parabólico, oficina administrativa al frente y entrada apta para camiones.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmq8uj6ZX7AnZKaAzYyVMHq9My2uxbp6adjw&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Fiat Cronos Precision 1.8 2021",
+    "descripcion": "Sedán familiar con amplio baúl, llantas de aleación y climatizador automático. Patentes al día.",
+    "imagenUrl": "https://images.pexels.com/photos/28836720/pexels-photo-28836720.jpeg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Sillón 3 Cuerpos Chenille",
+    "descripcion": "Sofá de tres cuerpos tapizado en tela chenille gris oscuro. Estructura reforzada y almohadones desmontables.",
+    "imagenUrl": "https://santamadera.com.ar/assets/img/products/sillones-living/sillon-esquinero-venecia-3-cuerpos/1-sillon-esquinero-venecia-3-cuerpos-chenille.webp",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Toyota Corolla Cross XRX 2023",
+    "descripcion": "SUV híbrido, excelente rendimiento de combustible, paquete de seguridad Toyota Safety Sense.",
+    "imagenUrl": "https://static.foxdealer.com/657/2024/02/COC_MY_per_4.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Volkswagen Amarok V6 Extreme 2022",
+    "descripcion": "Pick-up doble cabina, tracción 4x4, asientos de cuero y todos los servicios al día en concesionario oficial.",
+    "imagenUrl": "https://images.unsplash.com/photo-1687952527525-b79297bd7ef2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Vm9sa3N3YWdlbiUyMEFtYXJvayUyMFY2JTIwRXh0cmVtZSUyMDIwMjJ8ZW58MHx8MHx8fDA%3D",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Cómoda Cajonera 6 Cajones",
+    "descripcion": "Mueble cajonero en MDF laqueado blanco, tiradores metálicos. Dimensiones: 120x80x40 cm.",
+    "imagenUrl": "https://media.istockphoto.com/id/1130450554/es/foto/maqueta-interior-render-3d.jpg?s=612x612&w=0&k=20&c=GRzAPWoJ6UY7nWOPVmVwsQ-2bPUDgJ3cPc5fe1NI0CQ=",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Casa Minimalista de 2 Plantas en Estreno",
+    "descripcion": "Diseño moderno con aberturas de aluminio DVH, pisos de porcelanato, calefacción central e instalaciones de primera calidad.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/casa-blanca-moderna-con-acentos-negros-exterior-dise%C3%B1o-de-edificios-residenciales-dos-plantas-lujoso-hogar-al-atardecer-lujo-408830046.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Placard 4 Puertas con Cajones",
+    "descripcion": "Ropero de melamina color roble, 4 puertas batientes, 2 cajones con guías metálicas y estantes internos.",
+    "imagenUrl": "https://mall.icbc.com.ar/36064680-large_default/placard-4-puertas-2-cajones-pack-mendra-27478.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Departamento Moderno de 1 Dormitorio Centro",
+    "descripcion": "Departamento céntrico, tercer piso por ascensor. Living-comedor luminoso, cocina integrada, baño completo y balcón al frente.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/sala-de-estar-en-loft-adaptada-como-un-apartamento-moderno-y-espacioso-car%C3%A1cter-industrial-dado-por-los-ladrillos-paredes-parqu%C3%A9-318166585.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Terreno Residencial 360m2 Barrio Abierto",
+    "descripcion": "Lote plano listo para escriturar y construir. Cuenta con servicios de agua corriente, electricidad y alumbrado público.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw3C6CnSYWQ1igRK4HVxNhMi_VBEIDwQzFhQ&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Lote Esquina en Barrio Residencial",
+    "descripcion": "Ubicación destacada en esquina, ideal para proyecto constructivo de viviendas agrupadas o locales. Todos los servicios en puerta.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/lote-vacante-en-una-nueva-subdivisi%C3%B3n-de-construcci%C3%B3n-spokane-wash-%C2%BA-estad%C3%ADa-wa-usa-agosto-un-terreno-nuevo-barrio-residencial-184647486.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Honda HR-V EX-L 2018",
+    "descripcion": "Crossover muy cuidado, tapizado de cuero, caja automática CVT. Revisión técnica aprobada.",
+    "imagenUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/2017_Honda_HR-V_EX_i-VTEC_1.5_Front.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Casa de Estilo Colonial a Restaurar",
+    "descripcion": "Propiedad antigua de gran valor arquitectónico. 4 habitaciones, galería interna, patio de tierra y estructura sólida para reciclar.",
+    "imagenUrl": "https://us.123rf.com/450wm/mulderphoto/mulderphoto2508/mulderphoto250800104/258929907-old-shabby-houses-in-the-slum-district.jpg?ver=6",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Peugeot 208 Feline 1.6 2023",
+    "descripcion": "Hatchback tope de gama, techo panorámico, tablero digital 3D y cámara de retroceso. Como nuevo.",
+    "imagenUrl": "https://images.unsplash.com/photo-1708237495413-1f3a9d82e4c0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8UGV1Z2VvdCUyMDIwOCUyMEZlbGluZSUyMDEuNiUyMDIwMjN8ZW58MHx8MHx8fDA%3D",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Silla de Oficina Ergonómica",
+    "descripcion": "Silla giratoria con respaldo de malla transpirable, soporte lumbar, apoyabrazos ajustables y pistón a gas.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrL0B-A1GB62Xuxn2MsvgFJo69l0BuKXOgjA&s",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Kawasaki Ninja 400 2020",
+    "descripcion": "Motocicleta deportiva ligera, carenado completo. Mantenimiento realizado en concesionario oficial.",
+    "imagenUrl": "https://cdpcdn.dx1app.com/products-private/prod/736e7eeb-1566-4a79-a68b-349951b5ebfa/84d8f04b-04bf-44e4-b284-a619014687b8/00000000-0000-0000-0000-000000000000/8ef16ebe-547d-4fce-82bc-b1860050278a/0868981a-7580-4aaf-8802-b38601041777/6000000002.jpg",
+    "categoria": {
+      "id": 2
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Monoambiente Luminoso con Balcón Al Frente",
+    "descripcion": "Unidad funcional a estrenar, ideal para inversión o estudiantes. Cocina con amoblamiento completo y baño con bañera.",
+    "imagenUrl": "https://us.123rf.com/450wm/wavebreakmediamicro/wavebreakmediamicro2210/wavebreakmediamicro221000573/192835299-vista-general-de-cocina-moderna-con-encimera-equipamiento-de-cocina-y-ventana-concepto-de-casa.jpg?ver=6",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Estufa a Gas Tiro Balanceado",
+    "descripcion": "Calefactor de 3000 kcal/h, válvula de seguridad, encendido piezoeléctrico. Salida al exterior.",
+    "imagenUrl": "https://sanitariosypintureriabianco.com/wp-content/uploads/2023/05/pro-1.webp",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Local Comercial en Galería Planta Baja",
+    "descripcion": "Local de 25m2 en zona peatonal de alto tránsito. Expensas bajas, ideal para rubro indumentaria o estética.",
+    "imagenUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCwC_HYIt17vZHhCx08SSdKHURu5K3yBZj9g&s",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Biblioteca de Madera Maciza 5 Estantes",
+    "descripcion": "Estantería de pino macizo, ideal para organizar libros o decoración. Lista para pintar o barnizar.",
+    "imagenUrl": "https://http2.mlstatic.com/D_NQ_NP_903413-MLA110432761557_042026-O.webp",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Terreno Apto Desarrollos Edificios",
+    "descripcion": "Lote céntrico estratégico de 500m2 con indicadores urbanísticos óptimos para la edificación en altura.",
+    "imagenUrl": "https://d1acdg20u0pmxj.cloudfront.net/listings/d0768764-600a-4e04-aebd-7e44b9fa0bd4/860x440/c0d8eec8-2829-4231-832a-f0d3cb74270f.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Casa de Campo con Arboleda Centenaria",
+    "descripcion": "Vivienda tipo casa de campo en zona periurbana. Galería perimetral, cocina a leña, 2 habitaciones y gran parque forestado.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/siglo-xix-del-hogar-52090199.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Lavarropas Automático Drean 8kg",
+    "descripcion": "Lavarropas de carga frontal, 1200 RPM, display digital y lavado rápido. Funcionando perfectamente.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/frente-que-se-lava-22406254.jpg",
+    "categoria": {
+      "id": 3
+    },
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "nombre": "Local Comercial con Vidriera en Zona Céntrica",
+    "descripcion": "Excelente local de 50m2 cubiertos, planta baja con baño privado y persiana metálica de seguridad automatizada.",
+    "imagenUrl": "https://thumbs.dreamstime.com/b/tienda-de-comestibles-contempor%C3%A1nea-exterior-con-una-gran-vidriera-que-muestra-productos-frescos-interior-moderno-fruta-fresca-la-385469085.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "nombre": "Piso Exclusivo 3 Dormitorios Frente al Parque",
+    "descripcion": "Departamento de categoría con palier privado, suite principal con vestidor, dependencia de servicio y balcón terraza con vista panorámica.",
+    "imagenUrl": "https://zar2010.com/wp-content/uploads/2026/02/VZ1874-Calle-Subida-Pescadores-Miranda-Delfin-Garrucha-9.jpg",
+    "categoria": {
+      "id": 1
+    },
+    "vendedor": {
+      "id": 1
+    }
+  }
+]
+
+=== 5. ENTIDAD SUBASTAS (POST) ===
+[
+  {
+    "producto": {
+      "id": 1
+    },
+    "precioBase": 2800000.0,
+    "montoActual": 2800000.0,
+    "incrementoFijo": 50000.0,
+    "fechaInicio": "2026-06-25T10:00:00Z",
+    "fechaCierre": "2026-07-15T10:00:00Z",
+    "descripcion": "Subasta de Bajaj Rouser NS 200 2023",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 2
+    },
+    "precioBase": 95000.0,
+    "montoActual": 110000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-05-01T10:00:00Z",
+    "fechaCierre": "2026-06-01T10:00:00Z",
+    "descripcion": "Subasta de Horno Eléctrico Atma 40L",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 3
+    },
+    "precioBase": 60000000.0,
+    "montoActual": 61500000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-18T14:00:00Z",
+    "fechaCierre": "2026-07-18T14:00:00Z",
+    "descripcion": "Subasta de Terreno Industrial 1500m2 sobre Ruta",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 4
+    },
+    "precioBase": 11500000.0,
+    "montoActual": 11500000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-05-12T10:00:00Z",
+    "fechaCierre": "2026-06-12T10:00:00Z",
+    "descripcion": "Subasta de Terreno con Nivelación y Cerco Perimetral",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 5
+    },
+    "precioBase": 350000.0,
+    "montoActual": 350000.0,
+    "incrementoFijo": 15000.0,
+    "fechaInicio": "2026-07-05T09:00:00Z",
+    "fechaCierre": "2026-08-05T09:00:00Z",
+    "descripcion": "Subasta de Juego de Comedor Madera 6 Sillas",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 6
+    },
+    "precioBase": 34000000.0,
+    "montoActual": 34300000.0,
+    "incrementoFijo": 300000.0,
+    "fechaInicio": "2026-05-21T14:00:00Z",
+    "fechaCierre": "2026-06-21T14:00:00Z",
+    "descripcion": "Subasta de Nissan Frontier PRO-4X 2022",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 7
+    },
+    "precioBase": 80000000.0,
+    "montoActual": 81500000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-15T09:00:00Z",
+    "fechaCierre": "2026-07-15T09:00:00Z",
+    "descripcion": "Subasta de Local Comercial Esquina Doble Altura",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 8
+    },
+    "precioBase": 180000.0,
+    "montoActual": 185000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-06-15T10:00:00Z",
+    "fechaCierre": "2026-07-15T10:00:00Z",
+    "descripcion": "Subasta de Batidora Planetaria Peabody",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 9
+    },
+    "precioBase": 75000.0,
+    "montoActual": 75000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-08-01T10:00:00Z",
+    "fechaCierre": "2026-09-01T10:00:00Z",
+    "descripcion": "Subasta de Mesa Ratona de Vidrio y Metal",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 10
+    },
+    "precioBase": 32000000.0,
+    "montoActual": 32600000.0,
+    "incrementoFijo": 300000.0,
+    "fechaInicio": "2026-06-10T10:00:00Z",
+    "fechaCierre": "2026-07-10T10:00:00Z",
+    "descripcion": "Subasta de Casa Duplex 2 Dormitorios con Cochera",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 11
+    },
+    "precioBase": 26000000.0,
+    "montoActual": 26500000.0,
+    "incrementoFijo": 250000.0,
+    "fechaInicio": "2026-05-28T09:00:00Z",
+    "fechaCierre": "2026-06-25T09:00:00Z",
+    "descripcion": "Subasta de Casa Sencilla con Amplio Terreno Libre",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 12
+    },
+    "precioBase": 21000000.0,
+    "montoActual": 21300000.0,
+    "incrementoFijo": 150000.0,
+    "fechaInicio": "2026-06-20T08:00:00Z",
+    "fechaCierre": "2026-07-10T08:00:00Z",
+    "descripcion": "Subasta de Departamento Tipo PH de 2 Ambientes",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 13
+    },
+    "precioBase": 6200000.0,
+    "montoActual": 6250000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-08-01T10:00:00Z",
+    "fechaCierre": "2026-09-01T10:00:00Z",
+    "descripcion": "Subasta de Yamaha MT-03 2021",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 14
+    },
+    "precioBase": 22000000.0,
+    "montoActual": 22600000.0,
+    "incrementoFijo": 200000.0,
+    "fechaInicio": "2026-06-20T00:00:00Z",
+    "fechaCierre": "2026-07-20T00:00:00Z",
+    "descripcion": "Subasta de Chevrolet Tracker Premier 2022",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 15
+    },
+    "precioBase": 24000000.0,
+    "montoActual": 24300000.0,
+    "incrementoFijo": 300000.0,
+    "fechaInicio": "2026-05-18T09:00:00Z",
+    "fechaCierre": "2026-06-18T09:00:00Z",
+    "descripcion": "Subasta de Oficina o Local Comercial Planta Alta",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 16
+    },
+    "precioBase": 23000000.0,
+    "montoActual": 23300000.0,
+    "incrementoFijo": 150000.0,
+    "fechaInicio": "2026-05-05T09:00:00Z",
+    "fechaCierre": "2026-06-05T09:00:00Z",
+    "descripcion": "Subasta de Monoambiente Amoblado Ideal Estudiantes",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 17
+    },
+    "precioBase": 85000.0,
+    "montoActual": 90000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-06-15T10:00:00Z",
+    "fechaCierre": "2026-07-15T10:00:00Z",
+    "descripcion": "Subasta de Microondas BGH 20 Litros",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 18
+    },
+    "precioBase": 7800000.0,
+    "montoActual": 7800000.0,
+    "incrementoFijo": 150000.0,
+    "fechaInicio": "2026-04-10T10:00:00Z",
+    "fechaCierre": "2026-05-10T10:00:00Z",
+    "descripcion": "Subasta de Royal Enfield Interceptor 650 2023",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 19
+    },
+    "precioBase": 12000000.0,
+    "montoActual": 12500000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-06-20T10:00:00Z",
+    "fechaCierre": "2026-07-20T10:00:00Z",
+    "descripcion": "Subasta de Ford F-100 XLT 1994",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 20
+    },
+    "precioBase": 9500000.0,
+    "montoActual": 9700000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-05-20T10:00:00Z",
+    "fechaCierre": "2026-06-20T10:00:00Z",
+    "descripcion": "Subasta de Lote de Terreno en Zona de Crecimiento",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 21
+    },
+    "precioBase": 25000000.0,
+    "montoActual": 25000000.0,
+    "incrementoFijo": 250000.0,
+    "fechaInicio": "2026-07-25T08:00:00Z",
+    "fechaCierre": "2026-08-25T08:00:00Z",
+    "descripcion": "Subasta de Ford Transit 350L 2019",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 22
+    },
+    "precioBase": 14000000.0,
+    "montoActual": 14100000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-06-22T08:00:00Z",
+    "fechaCierre": "2026-07-22T08:00:00Z",
+    "descripcion": "Subasta de Lote Terreno Perímetro Semicerrado",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 23
+    },
+    "precioBase": 85000000.0,
+    "montoActual": 85000000.0,
+    "incrementoFijo": 1000000.0,
+    "fechaInicio": "2026-07-10T10:00:00Z",
+    "fechaCierre": "2026-08-10T10:00:00Z",
+    "descripcion": "Subasta de Casa de 4 Dormitorios, Quincho y Piscina",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 24
+    },
+    "precioBase": 4500000.0,
+    "montoActual": 4500000.0,
+    "incrementoFijo": 50000.0,
+    "fechaInicio": "2026-06-20T10:00:00Z",
+    "fechaCierre": "2026-07-20T10:00:00Z",
+    "descripcion": "Subasta de Honda XR 250 Tornado 2022",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 25
+    },
+    "precioBase": 480000.0,
+    "montoActual": 490000.0,
+    "incrementoFijo": 10000.0,
+    "fechaInicio": "2026-06-25T12:00:00Z",
+    "fechaCierre": "2026-07-25T12:00:00Z",
+    "descripcion": "Subasta de Smart TV LG 50 Pulgadas 4K",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 26
+    },
+    "precioBase": 85000.0,
+    "montoActual": 90000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-06-01T10:00:00Z",
+    "fechaCierre": "2026-07-01T10:00:00Z",
+    "descripcion": "Subasta de Licuadora con Jarra de Vidrio Philips",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 27
+    },
+    "precioBase": 14000000.0,
+    "montoActual": 14200000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-06-22T12:00:00Z",
+    "fechaCierre": "2026-07-22T12:00:00Z",
+    "descripcion": "Subasta de Renault Sandero 2020",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 28
+    },
+    "precioBase": 90000000.0,
+    "montoActual": 92000000.0,
+    "incrementoFijo": 1000000.0,
+    "fechaInicio": "2026-06-24T12:00:00Z",
+    "fechaCierre": "2026-07-24T12:00:00Z",
+    "descripcion": "Subasta de Predio Comercial con Oficinas y Galpón",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 29
+    },
+    "precioBase": 120000.0,
+    "montoActual": 120000.0,
+    "incrementoFijo": 10000.0,
+    "fechaInicio": "2026-04-20T08:00:00Z",
+    "fechaCierre": "2026-05-20T08:00:00Z",
+    "descripcion": "Subasta de Escritorio para PC en L",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 30
+    },
+    "precioBase": 55000000.0,
+    "montoActual": 56000000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-20T12:00:00Z",
+    "fechaCierre": "2026-07-20T12:00:00Z",
+    "descripcion": "Subasta de Lote en Barrio Cerrado con Seguridad",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 31
+    },
+    "precioBase": 380000.0,
+    "montoActual": 380000.0,
+    "incrementoFijo": 15000.0,
+    "fechaInicio": "2026-07-15T09:00:00Z",
+    "fechaCierre": "2026-08-15T09:00:00Z",
+    "descripcion": "Subasta de Aspiradora Robot Xiaomi",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 32
+    },
+    "precioBase": 48000000.0,
+    "montoActual": 48000000.0,
+    "incrementoFijo": 400000.0,
+    "fechaInicio": "2026-07-02T10:00:00Z",
+    "fechaCierre": "2026-08-02T10:00:00Z",
+    "descripcion": "Subasta de Casa Céntrica con Local Comercial Al Frente",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 33
+    },
+    "precioBase": 320000.0,
+    "montoActual": 320000.0,
+    "incrementoFijo": 15000.0,
+    "fechaInicio": "2026-07-10T08:00:00Z",
+    "fechaCierre": "2026-08-10T08:00:00Z",
+    "descripcion": "Subasta de Conjunto Sommier y Colchón 2 Plazas",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 34
+    },
+    "precioBase": 52000000.0,
+    "montoActual": 52000000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-04-20T11:00:00Z",
+    "fechaCierre": "2026-05-20T11:00:00Z",
+    "descripcion": "Subasta de Departamento de 2 Dormitorios con Amenities",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 35
+    },
+    "precioBase": 45000000.0,
+    "montoActual": 46500000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-15T10:00:00Z",
+    "fechaCierre": "2026-07-15T10:00:00Z",
+    "descripcion": "Subasta de Casa Familiar de 3 Dormitorios con Patio",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 36
+    },
+    "precioBase": 110000.0,
+    "montoActual": 110000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-07-10T08:00:00Z",
+    "fechaCierre": "2026-08-10T08:00:00Z",
+    "descripcion": "Subasta de Rack para TV de Melamina",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 37
+    },
+    "precioBase": 42000000.0,
+    "montoActual": 42000000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-07-06T10:00:00Z",
+    "fechaCierre": "2026-08-06T10:00:00Z",
+    "descripcion": "Subasta de Local para Gastronomía con Salida de Humos",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 38
+    },
+    "precioBase": 650000.0,
+    "montoActual": 670000.0,
+    "incrementoFijo": 10000.0,
+    "fechaInicio": "2026-06-20T10:00:00Z",
+    "fechaCierre": "2026-07-20T10:00:00Z",
+    "descripcion": "Subasta de Heladera con Freezer Samsung 328L",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 39
+    },
+    "precioBase": 46000000.0,
+    "montoActual": 46800000.0,
+    "incrementoFijo": 400000.0,
+    "fechaInicio": "2026-06-15T08:00:00Z",
+    "fechaCierre": "2026-07-15T08:00:00Z",
+    "descripcion": "Subasta de Departamento Duplex con Terraza Propia",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 40
+    },
+    "precioBase": 550000.0,
+    "montoActual": 570000.0,
+    "incrementoFijo": 20000.0,
+    "fechaInicio": "2026-06-27T10:00:00Z",
+    "fechaCierre": "2026-07-27T10:00:00Z",
+    "descripcion": "Subasta de Aire Acondicionado Split 3000F",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 41
+    },
+    "precioBase": 40000000.0,
+    "montoActual": 40000000.0,
+    "incrementoFijo": 400000.0,
+    "fechaInicio": "2026-05-02T09:00:00Z",
+    "fechaCierre": "2026-06-02T09:00:00Z",
+    "descripcion": "Subasta de Depósito o Local Comercial Amplio",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 42
+    },
+    "precioBase": 16000000.0,
+    "montoActual": 16100000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-06-10T10:00:00Z",
+    "fechaCierre": "2026-07-10T10:00:00Z",
+    "descripcion": "Subasta de Fiat Cronos Precision 1.8 2021",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 43
+    },
+    "precioBase": 280000.0,
+    "montoActual": 280000.0,
+    "incrementoFijo": 20000.0,
+    "fechaInicio": "2026-05-20T10:00:00Z",
+    "fechaCierre": "2026-06-20T10:00:00Z",
+    "descripcion": "Subasta de Sillón 3 Cuerpos Chenille",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 44
+    },
+    "precioBase": 32000000.0,
+    "montoActual": 32000000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-05T10:00:00Z",
+    "fechaCierre": "2026-07-05T10:00:00Z",
+    "descripcion": "Subasta de Toyota Corolla Cross XRX 2023",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 45
+    },
+    "precioBase": 35000000.0,
+    "montoActual": 36500000.0,
+    "incrementoFijo": 500000.0,
+    "fechaInicio": "2026-06-15T09:00:00Z",
+    "fechaCierre": "2026-07-15T09:00:00Z",
+    "descripcion": "Subasta de Volkswagen Amarok V6 Extreme 2022",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 46
+    },
+    "precioBase": 140000.0,
+    "montoActual": 145000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-05-10T11:00:00Z",
+    "fechaCierre": "2026-06-10T11:00:00Z",
+    "descripcion": "Subasta de Cómoda Cajonera 6 Cajones",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 47
+    },
+    "precioBase": 75000000.0,
+    "montoActual": 76000000.0,
+    "incrementoFijo": 1000000.0,
+    "fechaInicio": "2026-06-25T10:00:00Z",
+    "fechaCierre": "2026-07-25T10:00:00Z",
+    "descripcion": "Subasta de Casa Minimalista de 2 Plantas en Estreno",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 48
+    },
+    "precioBase": 190000.0,
+    "montoActual": 200000.0,
+    "incrementoFijo": 10000.0,
+    "fechaInicio": "2026-04-10T09:00:00Z",
+    "fechaCierre": "2026-05-10T09:00:00Z",
+    "descripcion": "Subasta de Placard 4 Puertas con Cajones",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 49
+    },
+    "precioBase": 28000000.0,
+    "montoActual": 28000000.0,
+    "incrementoFijo": 300000.0,
+    "fechaInicio": "2026-07-05T09:00:00Z",
+    "fechaCierre": "2026-08-05T09:00:00Z",
+    "descripcion": "Subasta de Departamento Moderno de 1 Dormitorio Centro",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 50
+    },
+    "precioBase": 12000000.0,
+    "montoActual": 12400000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-05-10T08:00:00Z",
+    "fechaCierre": "2026-06-10T08:00:00Z",
+    "descripcion": "Subasta de Terreno Residencial 360m2 Barrio Abierto",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 51
+    },
+    "precioBase": 16000000.0,
+    "montoActual": 16400000.0,
+    "incrementoFijo": 200000.0,
+    "fechaInicio": "2026-05-15T11:00:00Z",
+    "fechaCierre": "2026-06-15T11:00:00Z",
+    "descripcion": "Subasta de Lote Esquina en Barrio Residencial",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 52
+    },
+    "precioBase": 19000000.0,
+    "montoActual": 19500000.0,
+    "incrementoFijo": 250000.0,
+    "fechaInicio": "2026-06-01T08:00:00Z",
+    "fechaCierre": "2026-07-01T08:00:00Z",
+    "descripcion": "Subasta de Honda HR-V EX-L 2018",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 53
+    },
+    "precioBase": 22000000.0,
+    "montoActual": 22000000.0,
+    "incrementoFijo": 200000.0,
+    "fechaInicio": "2026-07-10T08:00:00Z",
+    "fechaCierre": "2026-08-10T08:00:00Z",
+    "descripcion": "Subasta de Casa de Estilo Colonial a Restaurar",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 54
+    },
+    "precioBase": 18000000.0,
+    "montoActual": 18000000.0,
+    "incrementoFijo": 200000.0,
+    "fechaInicio": "2026-07-28T10:00:00Z",
+    "fechaCierre": "2026-08-28T10:00:00Z",
+    "descripcion": "Subasta de Peugeot 208 Feline 1.6 2023",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 55
+    },
+    "precioBase": 150000.0,
+    "montoActual": 155000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-06-22T10:00:00Z",
+    "fechaCierre": "2026-07-22T10:00:00Z",
+    "descripcion": "Subasta de Silla de Oficina Ergonómica",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 56
+    },
+    "precioBase": 8500000.0,
+    "montoActual": 8600000.0,
+    "incrementoFijo": 100000.0,
+    "fechaInicio": "2026-05-01T10:00:00Z",
+    "fechaCierre": "2026-06-01T10:00:00Z",
+    "descripcion": "Subasta de Kawasaki Ninja 400 2020",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 57
+    },
+    "precioBase": 19000000.0,
+    "montoActual": 19200000.0,
+    "incrementoFijo": 200000.0,
+    "fechaInicio": "2026-05-01T10:00:00Z",
+    "fechaCierre": "2026-06-01T10:00:00Z",
+    "descripcion": "Subasta de Monoambiente Luminoso con Balcón Al Frente",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 58
+    },
+    "precioBase": 160000.0,
+    "montoActual": 165000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-05-25T10:00:00Z",
+    "fechaCierre": "2026-06-25T10:00:00Z",
+    "descripcion": "Subasta de Estufa a Gas Tiro Balanceado",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 59
+    },
+    "precioBase": 15000000.0,
+    "montoActual": 15000000.0,
+    "incrementoFijo": 150000.0,
+    "fechaInicio": "2026-07-01T09:00:00Z",
+    "fechaCierre": "2026-08-01T09:00:00Z",
+    "descripcion": "Subasta de Local Comercial en Galería Planta Baja",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 60
+    },
+    "precioBase": 65000.0,
+    "montoActual": 65000.0,
+    "incrementoFijo": 5000.0,
+    "fechaInicio": "2026-07-20T10:00:00Z",
+    "fechaCierre": "2026-08-20T10:00:00Z",
+    "descripcion": "Subasta de Biblioteca de Madera Maciza 5 Estantes",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 61
+    },
+    "precioBase": 110000000.0,
+    "montoActual": 112000000.0,
+    "incrementoFijo": 2000000.0,
+    "fechaInicio": "2026-06-12T10:00:00Z",
+    "fechaCierre": "2026-07-12T10:00:00Z",
+    "descripcion": "Subasta de Terreno Apto Desarrollos Edificios",
+    "estado": "ACTIVA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 62
+    },
+    "precioBase": 38000000.0,
+    "montoActual": 38000000.0,
+    "incrementoFijo": 400000.0,
+    "fechaInicio": "2026-07-20T10:00:00Z",
+    "fechaCierre": "2026-08-20T10:00:00Z",
+    "descripcion": "Subasta de Casa de Campo con Arboleda Centenaria",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 63
+    },
+    "precioBase": 420000.0,
+    "montoActual": 450000.0,
+    "incrementoFijo": 10000.0,
+    "fechaInicio": "2026-05-15T10:00:00Z",
+    "fechaCierre": "2026-06-15T10:00:00Z",
+    "descripcion": "Subasta de Lavarropas Automático Drean 8kg",
+    "estado": "FINALIZADA",
+    "vendedor": {
+      "id": 1
+    }
+  },
+  {
+    "producto": {
+      "id": 64
+    },
+    "precioBase": 35000000.0,
+    "montoActual": 35000000.0,
+    "incrementoFijo": 400000.0,
+    "fechaInicio": "2026-05-15T10:00:00Z",
+    "fechaCierre": "2026-06-15T10:00:00Z",
+    "descripcion": "Subasta de Local Comercial con Vidriera en Zona Céntrica",
+    "estado": "CANCELADA",
+    "vendedor": {
+      "id": 2
+    }
+  },
+  {
+    "producto": {
+      "id": 65
+    },
+    "precioBase": 95000000.0,
+    "montoActual": 95000000.0,
+    "incrementoFijo": 1000000.0,
+    "fechaInicio": "2026-07-15T11:00:00Z",
+    "fechaCierre": "2026-08-15T11:00:00Z",
+    "descripcion": "Subasta de Piso Exclusivo 3 Dormitorios Frente al Parque",
+    "estado": "PUBLICADA",
+    "vendedor": {
+      "id": 1
+    }
+  }
+]

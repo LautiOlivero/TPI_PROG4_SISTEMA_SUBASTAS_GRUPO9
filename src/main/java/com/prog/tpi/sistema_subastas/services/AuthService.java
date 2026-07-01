@@ -44,9 +44,10 @@ public class AuthService {
             throw new ReglaNegocioException("El email ya se encuentra registrado.");
         }
 
-        // Asignación directa por ID (1 = USER, 2 = SELLER) según lo solicitado
-        Rol rolUser = Rol.builder().id(1L).build();
-        Rol rolSeller = Rol.builder().id(2L).build();
+        Rol rolUser = rolRepository.findByNombre("USER")
+                .orElseThrow(() -> new RuntimeException("Rol USER no encontrado"));
+        Rol rolSeller = rolRepository.findByNombre("SELLER")
+                .orElseThrow(() -> new RuntimeException("Rol SELLER no encontrado"));
 
         Usuario nuevoUsuario = Usuario.builder()
                 .usernameEmail(request.getUsernameEmail())

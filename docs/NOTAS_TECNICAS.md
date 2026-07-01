@@ -7,11 +7,17 @@
 - Fase 1: Entidades JPA, relaciones, DTOs, repositorios
 - Fase 2: Manejo global de excepciones, configuración PostgreSQL
 - Fase 3: Seguridad completa (Spring Security, JWT, autenticación, RBAC)
-- Fase 5: Tareas programadas, cierre automático, notificaciones, disputas
-
-**Pendiente:**
-
 - Fase 4: Motor de pujas, privacidad de ofertas, lógica de negocio avanzada
+- Fase 5: Tareas programadas, cierre automático, notificaciones, disputas
+- Carga de datos: 3 usuarios, 3 categorías, 65 productos, 65 subastas cargados en Render
+
+## Bugs Corregidos
+
+**ROLE_null en JWT** (`AuthService.java`): `register()` usaba `Rol.builder().id(1L).build()` creando objetos con `nombre=null`, lo que generaba `ROLE_null` en el token. Corregido con `rolRepository.findByNombre("USER")` y `rolRepository.findByNombre("SELLER")`.
+
+**imagenUrl ausente en respuesta** (`DtoMapper.java`): `toProductoDTO()` no incluía `.imagenUrl(producto.getImagenUrl())`. Los datos se guardaban pero no se devolvían en el JSON. Corregido agregando el campo al builder.
+
+**NPE en historialEstado** (`DtoMapper.java`): `toHistorialEstadoDTO()` llamaba a `toUsuarioDTO(historial.getUsuarioResponsable())` sin verificar null. El scheduler no setea `usuarioResponsable` en transiciones automáticas, lo que causaría NullPointerException. Corregido con null-check previo.
 
 ## Convenciones del Proyecto
 
@@ -55,6 +61,12 @@ com.prog.tpi.sistema_subastas/
 | `/api/subastas` | POST | Auth | SELLER | ✅ |
 | `/api/subastas/{id}/publicar` | PATCH | Auth | SELLER | ✅ |
 | `/api/subastas/{id}/cancelar` | PATCH | Auth | SELLER, ADMIN | ✅ |
+| `/api/subastas/{id}/pujas` | POST | Auth | USER | ✅ |
+| `/api/subastas/{id}/pujas` | GET | Auth | - | ✅ |
+| `/api/notificaciones` | GET | Auth | - | ✅ |
+| `/api/disputas` | POST | Auth | USER | ✅ |
+| `/api/disputas/{id}/resolver` | PATCH | Auth | ADMIN | ✅ |
+| `/api/usuarios/perfil` | GET | Auth | - | ✅ |
 
 ## Seguridad
 
@@ -119,3 +131,54 @@ curl -X POST http://localhost:8080/api/productos \
 ```
 
 **Roles en BD:** El `DataInitializer` crea automáticamente los roles `USER`, `SELLER`, `ADMIN` al iniciar la app.
+
+## Reglas de Negocio Importantes
+
+**Regla de 48 horas para publicar:** `SubastaService.publicarSubasta()` valida que `fechaInicio >= Instant.now() + 48h`. Si no se cumple, lanza `ReglaNegocioException` → 400 Bad Request. Al cargar subastas de prueba, usar fechas futuras (mínimo 72h para margen de seguridad).
+
+**Ciclo de vida de una subasta:**
+```
+BORRADOR → PUBLICADA (POST /publicar, manual, SELLER)
+         → ACTIVA    (scheduler, cuando fechaInicio llega)
+         → ADJUDICADA (scheduler, cuando fechaCierre pasa Y hay ganadorActual)
+         → FINALIZADA (scheduler, cuando fechaCierre pasa Y no hay pujas)
+         → CANCELADA  (POST /cancelar, manual, SELLER/ADMIN)
+```
+
+**Scheduler:** Corre cada 30 segundos (`@Scheduled(fixedDelay=30_000)`). Hace las transiciones PUBLICADA→ACTIVA y ACTIVA→ADJUDICADA/FINALIZADA automáticamente.
+
+**Cancelación:** SELLER puede cancelar sus subastas en estado BORRADOR o PUBLICADA. Solo ADMIN puede cancelar una subasta ACTIVA.
+
+## Scripts de Carga de Datos
+
+Los scripts están en la raíz del proyecto. Ejecutar en orden:
+
+```bash
+# 1. Cargar categorías, usuarios y productos (si no están ya)
+python cargar_productos.py   # carga categorías + 2 sellers + 65 productos
+
+# 2. Cargar subastas
+python cargar_subastas.py    # crea y publica 65 subastas (7 CANCELADA)
+
+# 3. Crear variedad de estados para demo
+python actualizar_estados.py # setea fechas al pasado; esperar 30s al scheduler
+```
+
+`cargar_subastas.py` usa `fechaInicio = "2026-07-04T10:00:00Z"` para las subastas sin fecha futura explícita, satisfaciendo la regla de 48h.
+
+`actualizar_estados.py` usa psycopg2 con conexión directa a Render para evitar problemas de auto-commit de DBeaver:
+- id <= 25 PUBLICADA → setea fechaInicio al pasado → scheduler las pone ACTIVA
+- id 26-40 PUBLICADA → setea fechaInicio y fechaCierre al pasado → scheduler las pone FINALIZADA (si no tienen pujas)
+
+## Performance: N+1 en GET /api/subastas
+
+`GET /api/subastas` tarda ~10 segundos contra Render porque Hibernate hace lazy-loading: 65 subastas × ~7 queries cada una ≈ 455 queries individuales a la DB remota.
+
+La solución es agregar `@EntityGraph` en `SubastaRepository.findAll()` para traer todo en un JOIN. No implementado aún.
+
+## Demo: Cómo mostrar estado ADJUDICADA
+
+El estado ADJUDICADA no se puede precargar (requiere puja real + cierre). Para demostrarlo en vivo:
+1. Hacer una puja en una subasta ACTIVA
+2. Ejecutar: `UPDATE subastas SET fecha_cierre = NOW() - INTERVAL '1 minute' WHERE id = X;`
+3. Esperar ~30 segundos → el scheduler la cierra como ADJUDICADA
