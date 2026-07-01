@@ -25,10 +25,14 @@ import com.prog.tpi.sistema_subastas.util.DtoMapper;
 public class SubastaService {
     private final SubastaRepository subastaRepository;
     private final ProductoRepository productoRepository;
+    private final HistorialEstadoService historialEstadoService;
 
-    public SubastaService(SubastaRepository subastaRepository, ProductoRepository productoRepository) {
+    public SubastaService(SubastaRepository subastaRepository, 
+                          ProductoRepository productoRepository,
+                          HistorialEstadoService historialEstadoService) {
         this.subastaRepository = subastaRepository;
         this.productoRepository = productoRepository;
+        this.historialEstadoService = historialEstadoService;
     }
 
     @Transactional
@@ -45,6 +49,9 @@ public class SubastaService {
         subasta.setMontoActual(subasta.getPrecioBase());
 
         Subasta guardada = subastaRepository.save(subasta);
+        
+        historialEstadoService.registrarCambio(guardada, null, EstadoSubasta.BORRADOR, "Creación de subasta");
+        
         return DtoMapper.toSubastaDTO(guardada);
     }
 
@@ -79,6 +86,9 @@ public class SubastaService {
 
         subasta.setEstado(EstadoSubasta.PUBLICADA);
         Subasta guardada = subastaRepository.save(subasta);
+        
+        historialEstadoService.registrarCambio(guardada, EstadoSubasta.BORRADOR, EstadoSubasta.PUBLICADA, "Publicación por vendedor");
+        
         return DtoMapper.toSubastaDTO(guardada);
     }
 
@@ -95,12 +105,16 @@ public class SubastaService {
             throw new ReglaNegocioException("La subasta ya está ACTIVA. Solo un administrador puede cancelarla.");
         }
 
-        if (subasta.getEstado() == EstadoSubasta.CERRADA || subasta.getEstado() == EstadoSubasta.CANCELADA) {
+        if (subasta.getEstado() == EstadoSubasta.ADJUDICADA || subasta.getEstado() == EstadoSubasta.FINALIZADA || subasta.getEstado() == EstadoSubasta.CANCELADA) {
             throw new ReglaNegocioException("La subasta ya se encuentra " + subasta.getEstado() + " y no puede ser cancelada.");
         }
 
+        EstadoSubasta estadoAnterior = subasta.getEstado();
         subasta.setEstado(EstadoSubasta.CANCELADA);
         Subasta guardada = subastaRepository.save(subasta);
+        
+        historialEstadoService.registrarCambio(guardada, estadoAnterior, EstadoSubasta.CANCELADA, "Cancelada por " + (esAdmin ? "Administrador" : "Vendedor"));
+        
         return DtoMapper.toSubastaDTO(guardada);
     }
 }

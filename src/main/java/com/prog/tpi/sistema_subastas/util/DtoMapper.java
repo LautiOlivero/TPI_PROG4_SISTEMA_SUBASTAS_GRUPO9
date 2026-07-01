@@ -129,7 +129,6 @@ public class DtoMapper {
     public static Puja toPuja(PujaRequestDTO dto) {
         return Puja.builder()
                 .subasta(Subasta.builder().id(dto.getSubastaId()).build())
-                .montoOfertado(dto.getMontoOfertado())
                 .fechaPuja(Instant.now())
                 .build();
     }

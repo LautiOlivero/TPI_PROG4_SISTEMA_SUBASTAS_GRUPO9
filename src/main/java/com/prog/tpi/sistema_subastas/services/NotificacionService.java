@@ -9,6 +9,7 @@ import com.prog.tpi.sistema_subastas.util.DtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,17 @@ public class NotificacionService {
 
     public NotificacionService(NotificacionRepository notificacionRepository) {
         this.notificacionRepository = notificacionRepository;
+    }
+
+    @Transactional
+    public void enviarNotificacion(Usuario destino, String mensaje) {
+        Notificacion notificacion = Notificacion.builder()
+                .usuarioDestino(destino)
+                .mensaje(mensaje)
+                .leido(false)
+                .fecha(Instant.now())
+                .build();
+        notificacionRepository.save(notificacion);
     }
 
     @Transactional(readOnly = true)
@@ -33,7 +45,7 @@ public class NotificacionService {
     @Transactional
     public NotificacionResponseDTO marcarComoLeida(Long id, Usuario usuario) {
         Notificacion notificacion = notificacionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notificación no encontrada con ID: " + id));
+                .orElseThrow(() -> new ReglaNegocioException("Notificación no encontrada con ID: " + id));
 
         if (!notificacion.getUsuarioDestino().getId().equals(usuario.getId())) {
             throw new ReglaNegocioException("No podés marcar como leída una notificación que no es tuya.");

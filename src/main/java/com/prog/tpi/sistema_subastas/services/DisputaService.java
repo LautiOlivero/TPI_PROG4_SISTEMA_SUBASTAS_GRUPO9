@@ -19,10 +19,12 @@ public class DisputaService {
 
     private final DisputaRepository disputaRepository;
     private final SubastaRepository subastaRepository;
+    private final NotificacionService notificacionService;
 
-    public DisputaService(DisputaRepository disputaRepository, SubastaRepository subastaRepository) {
+    public DisputaService(DisputaRepository disputaRepository, SubastaRepository subastaRepository, NotificacionService notificacionService) {
         this.disputaRepository = disputaRepository;
         this.subastaRepository = subastaRepository;
+        this.notificacionService = notificacionService;
     }
 
     @Transactional
@@ -45,7 +47,6 @@ public class DisputaService {
             throw new ReglaNegocioException("Solo el ganador o el vendedor pueden abrir una disputa.");
         }
 
-        // Solo puede haber una disputa por subasta
         if (subasta.getDisputa() != null) {
             throw new ReglaNegocioException("Ya existe una disputa abierta para esta subasta.");
         }
@@ -59,6 +60,16 @@ public class DisputaService {
                 .build();
 
         Disputa guardada = disputaRepository.save(disputa);
+
+        // Notificar a la otra parte
+        Usuario otraParte = esVendedor ? subasta.getGanadorActual() : subasta.getVendedor();
+        if (otraParte != null) {
+            notificacionService.enviarNotificacion(
+                    otraParte,
+                    "Se ha abierto una disputa en la subasta '" + subasta.getProducto().getNombre() + "'."
+            );
+        }
+
         return DtoMapper.toDisputaDTO(guardada);
     }
 
@@ -81,12 +92,25 @@ public class DisputaService {
         Disputa disputa = disputaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Disputa no encontrada con ID: " + id));
 
-        if (disputa.getResolucionAdministrativa() != null) {
+        if (disputa.getResolucionAdministrativa() != null && !disputa.getResolucionAdministrativa().isEmpty()) {
             throw new ReglaNegocioException("Esta disputa ya fue resuelta.");
         }
 
         disputa.setResolucionAdministrativa(resolucion);
         Disputa guardada = disputaRepository.save(disputa);
+        
+        // Notificar a ambas partes
+        notificacionService.enviarNotificacion(
+                disputa.getSubasta().getVendedor(),
+                "La disputa de la subasta '" + disputa.getSubasta().getProducto().getNombre() + "' ha sido resuelta por administración."
+        );
+        if (disputa.getSubasta().getGanadorActual() != null) {
+            notificacionService.enviarNotificacion(
+                    disputa.getSubasta().getGanadorActual(),
+                    "La disputa de la subasta '" + disputa.getSubasta().getProducto().getNombre() + "' ha sido resuelta por administración."
+            );
+        }
+        
         return DtoMapper.toDisputaDTO(guardada);
     }
 }

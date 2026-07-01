@@ -17,8 +17,4 @@ public class PujaRequestDTO {
 
     @NotNull(message = "{err.req}")
     private Long subastaId;
-
-    @NotNull(message = "{err.req}")
-    @Positive(message = "{err.pos}")
-    private BigDecimal montoOfertado;
 }

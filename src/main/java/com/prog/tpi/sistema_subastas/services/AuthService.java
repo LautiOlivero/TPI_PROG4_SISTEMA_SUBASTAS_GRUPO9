@@ -44,14 +44,15 @@ public class AuthService {
             throw new ReglaNegocioException("El email ya se encuentra registrado.");
         }
 
-        Rol rolUser = rolRepository.findByNombre("USER")
-                .orElseThrow(() -> new ReglaNegocioException("Rol USER no encontrado en la base de datos."));
+        // Asignación directa por ID (1 = USER, 2 = SELLER) según lo solicitado
+        Rol rolUser = Rol.builder().id(1L).build();
+        Rol rolSeller = Rol.builder().id(2L).build();
 
         Usuario nuevoUsuario = Usuario.builder()
                 .usernameEmail(request.getUsernameEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .bloqueado(false)
-                .roles(List.of(rolUser))
+                .roles(List.of(rolUser, rolSeller))
                 .build();
 
         usuarioRepository.save(nuevoUsuario);
