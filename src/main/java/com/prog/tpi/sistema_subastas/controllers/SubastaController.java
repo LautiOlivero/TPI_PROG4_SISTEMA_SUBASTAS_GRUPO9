@@ -26,6 +26,12 @@ public class SubastaController {
         return ResponseEntity.ok(subastaService.obtenerSubastas());
     }
 
+    @GetMapping("/mis")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<SubastaResponseDTO>> obtenerMisSubastas() {
+        return ResponseEntity.ok(subastaService.obtenerMisSubastas());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<SubastaResponseDTO> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(subastaService.obtenerPorId(id));

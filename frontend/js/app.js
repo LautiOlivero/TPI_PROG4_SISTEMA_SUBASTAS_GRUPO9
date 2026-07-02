@@ -3,6 +3,13 @@ let estadoActual = 'ACTIVA';
 
 document.addEventListener("DOMContentLoaded", () => {
     cargarSubastas();
+
+    const user = usuarioLogueado();
+    const esAdmin = user && user.roles && user.roles.includes('ROLE_ADMIN');
+    if (!esAdmin) {
+        const btnAdmin = document.getElementById('nav-admin');
+        if (btnAdmin) btnAdmin.style.display = 'none';
+    }
 });
 
 async function cargarSubastas() {

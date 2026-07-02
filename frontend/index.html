@@ -32,13 +32,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="pages/mis-subastas.html">Mis Subastas</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold" href="pages/admin-dashboard.html" style="color: var(--color-filtro);"><i class="bi bi-shield-lock me-1"></i>Administrador</a>
+                    <li class="nav-item" id="nav-admin">
+                        <a class="nav-link fw-bold" href="pages/admin-dashboard.html"
+                            style="color: var(--color-filtro);"><i class="bi bi-shield-lock me-1"></i>Administrador</a>
                     </li>
                 </ul>
                 <div class="d-flex ms-auto">
                     <span class="navbar-text me-3">Hola, Vendedor</span>
-                    <a href="pages/login.html" class="btn btn-outline-light btn-sm">Salir</a>
+                    <button onclick="cerrarSesion()" class="btn btn-outline-light btn-sm">Salir</button>
                 </div>
             </div>
         </div>
