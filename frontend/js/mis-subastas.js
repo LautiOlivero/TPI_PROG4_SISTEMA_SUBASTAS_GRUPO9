@@ -1,3 +1,8 @@
+const user = usuarioLogueado();
+if (!user) {
+    window.location.href = 'login.html';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     cargarMisSubastas();
 });
@@ -6,7 +11,10 @@ async function cargarMisSubastas() {
     const tbody = document.getElementById('tablaMisSubastas');
 
     try {
-        const response = await fetch(API_BASE_URL + '/api/subastas');
+        const response = await fetch(API_BASE_URL + '/api/subastas/mis', {
+            headers: getAuthHeaders()
+        });
+
         if (!response.ok) throw new Error('Error al obtener los datos');
 
         let subastas = await response.json();

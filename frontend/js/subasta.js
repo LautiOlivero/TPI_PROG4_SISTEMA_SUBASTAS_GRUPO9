@@ -52,11 +52,45 @@ async function realizarOferta(id) {
         return;
     }
 
-    Swal.fire({
-        icon: 'info',
-        title: 'Próximamente',
-        text: 'El motor de pujas estará disponible en la Fase 4 del proyecto.'
+    const result = await Swal.fire({
+        title: 'Confirmar Oferta',
+        text: `¿Estás seguro de realizar una oferta por esta subasta?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#0d6efd',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, ofertar',
+        cancelButtonText: 'Cancelar'
     });
+
+    if (result.isConfirmed) {
+        try {
+            Swal.fire({ title: 'Procesando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            const response = await fetch(API_BASE_URL + '/api/pujas', {
+                method: 'POST',
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ subastaId: parseInt(id) })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.message || 'Error al procesar la oferta');
+            }
+
+            await Swal.fire('¡Éxito!', 'Tu oferta ha sido registrada correctamente.', 'success');
+
+            // Recargar detalles de la subasta para actualizar precios y ganador
+            cargarDetalleSubasta(id);
+
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire('Error', error.message || 'Hubo un problema al ofertar. Verifica que hayas iniciado sesión.', 'error');
+        }
+    }
 }
 
 function renderizarDetalles(subasta) {
